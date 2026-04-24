@@ -1,15 +1,25 @@
 import React from 'react'
 
+import {
+    createRootRoute,
+    createRoute,
+    createRouter,
+    Link,
+    Outlet,
+} from '@tanstack/react-router'
 const Navbar = () => {
     return (
-        <div>
-            <nav>
-                <ul>
-                    <li><a href="/">inicio</a></li>
-                    <li><a href="/about">repuestos</a></li>
-                </ul>
+        <>
+            <nav style={{ display: 'flex', gap: '1rem', padding: '1rem' }}>
+                <Link to="/">Inicio</Link>
+                <Link to="/Carparts">Carparts</Link>
+
             </nav>
-        </div>
+
+            <section id="enter">
+                <Outlet />
+            </section>
+        </>
     )
 }
 
