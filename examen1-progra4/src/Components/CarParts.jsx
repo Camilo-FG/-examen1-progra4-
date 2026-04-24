@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 const CarParts = () => {
+    const [search, setSearch] = useState('')
     const [parts, setParts] = useState([])
     const [visibleCount, setVisibleCount] = useState(10)
     const [loading, setLoading] = useState(true)
@@ -36,16 +37,10 @@ const CarParts = () => {
 
     const filteredParts = useMemo(() => {
         return parts.filter((part) => {
-            const category = String(part?.categoria ?? part?.category ?? part?.type ?? '').trim().toLowerCase()
-            const title = String(part?.nombre ?? part?.name ?? part?.titulo ?? part?.title ?? '').trim().toLowerCase()
-
-            if (!category && !title) {
-                return true
-            }
-
-            return category.includes('repuesto') || title.includes('repuesto') || title.includes('carro')
+            const name = String(part.articleProductName ?? '').toLowerCase()
+            return name.includes(search.toLowerCase())
         })
-    }, [parts])
+    }, [parts, search])
 
     useEffect(() => {
         const fetchjson = async () => {
@@ -74,7 +69,16 @@ const CarParts = () => {
     const hasMoreParts = filteredParts.length > visibleCount
 
     return (
+
         <div className="car-parts-page">
+            <div className="search-box">
+                <input
+                    type="text"
+                    placeholder="Buscar repuesto..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
             <section className="car-parts-hero">
                 <p className="eyebrow">Repuestos de Carro</p>
                 <h1>Listado principal</h1>
