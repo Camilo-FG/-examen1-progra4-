@@ -10,6 +10,7 @@ import CarParts from './Components/CarParts'
 
 import Home from './Components/Home'
 import Navbar from './Components/Navbar'
+import Footer from './Components/Footer'
 
 
 const rootRoute = createRootRoute({
@@ -17,6 +18,7 @@ const rootRoute = createRootRoute({
         return (
             <>
                 <Navbar></Navbar>
+
             </>
         )
     },

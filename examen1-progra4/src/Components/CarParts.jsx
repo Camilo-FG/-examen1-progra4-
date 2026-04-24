@@ -4,6 +4,7 @@ const CarParts = () => {
     const [search, setSearch] = useState('')
     const [parts, setParts] = useState([])
     const [visibleCount, setVisibleCount] = useState(10)
+
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
 
@@ -48,7 +49,7 @@ const CarParts = () => {
             headers.append("X-Access-Key", key);
 
             try {
-                const response = await fetch("https://api.jsonbin.io/v3/b/69e535e236566621a8ce210a", { headers });
+                const response = await fetch(import.meta.env.VITE_JSONBIN_API_URL, { headers });
                 const data = await response.json();
 
                 const items = data.record.articles;
@@ -84,44 +85,50 @@ const CarParts = () => {
                 <h1>Listado principal</h1>
                 <p>Consulta el inventario disponible desde JSONBin y descubre los repuestos publicados.</p>
             </section>
-
             {loading ? (
-                <div className="status-card">Cargando repuestos...</div>
-            ) : error ? (
-                <div className="status-card error">{error}</div>
-            ) : (
-                <>
-                    <div className="parts-grid">
-                        {visibleParts.map((part, index) => {
-                            const name = part.articleProductName
-                            const category = part.supplierName
-                            const description = part.articleNo
-                            const image = part.s3image
+                <div className="status-card">Cargando los repuestos</div>
+            )
+                : error ? (
+                    <div className="status-card error">{error}</div>
+                ) : (
+                    <>
+                        <div className="parts-grid">
+                            {visibleParts.map((part, index) => {
+                                const name = part.articleProductName
+                                const category = part.supplierName
+                                const description = part.articleNo
+                                const image = part.s3image
 
-                            return (
-                                <article className="part-card" key={part.articleId}>
-                                    <img src={image} alt={name} style={{ width: "100%" }} />
-                                    <span className="part-category">{category}</span>
-                                    <h2>{name}</h2>
-                                    <p>{description}</p>
-                                </article>
-                            )
-                        })}
-                    </div>
-
-                    {hasMoreParts ? (
-                        <div className="load-more-wrap">
-                            <button
-                                type="button"
-                                className="load-more-button"
-                                onClick={() => setVisibleCount((currentCount) => currentCount + 10)}
-                            >
-                                Ver más
-                            </button>
+                                return (
+                                    <article className="part-card" key={part.articleId}>
+                                        <img src={image} alt={name} style={{ width: "100%" }} />
+                                        <span className="part-category">{category}</span>
+                                        <h2>{name}</h2>
+                                        <p>{description}</p>
+                                    </article>
+                                )
+                            })}
                         </div>
-                    ) : null}
-                </>
+
+                        {hasMoreParts ? (
+                            <div className="load-more-wrap">
+                                <button
+                                    type="button"
+                                    className="load-more-button"
+                                    onClick={() => setVisibleCount((currentCount) => currentCount + 10)}
+                                >
+                                    Ver más
+                                </button>
+                            </div>
+                        ) : null}
+                    </>
+                )}
+            {!loading && !error && filteredParts.length === 0 && (
+                <div className="status-card">
+                    PIPIPIPIIP NO SE ENCONTRARON REPUESTOS PARA TU BÚSQUEDA PIPIPIPIIP
+                </div>
             )}
+
         </div>
     )
 }

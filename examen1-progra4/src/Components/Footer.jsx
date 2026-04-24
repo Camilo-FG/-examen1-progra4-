@@ -2,9 +2,9 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div>
-hola footer
-        </div>
+        <footer>
+            Universidad Nacional de Costa Rica Sede Regional Chorotega
+        </footer>
     )
 }
 

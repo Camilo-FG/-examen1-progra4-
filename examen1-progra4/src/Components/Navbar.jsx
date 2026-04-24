@@ -7,6 +7,7 @@ import {
     Link,
     Outlet,
 } from '@tanstack/react-router'
+import Footer from './Footer'
 const Navbar = () => {
     return (
         <>
@@ -19,6 +20,7 @@ const Navbar = () => {
             <section id="enter">
                 <Outlet />
             </section>
+            <Footer></Footer>
         </>
     )
 }
